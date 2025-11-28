@@ -2,10 +2,10 @@
   "name": "msd-plate-analyzer",
   "version": "1.0.0",
   "description": "MSD Plate Analyzer - Multi-Spot Detection Analysis Tool",
-  "main": "index.html",
+  "main": "src/index.html",
   "scripts": {
-    "start": "python3 -m http.server 8000",
-    "dev": "python3 -m http.server 8000",
+    "start": "node server.js",
+    "dev": "node server.js",
     "server": "node server.js"
   },
   "keywords": [
