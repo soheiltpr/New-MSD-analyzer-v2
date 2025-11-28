@@ -1,0 +1,34 @@
+{
+  "name": "msd-plate-analyzer",
+  "version": "1.0.0",
+  "description": "MSD Plate Analyzer - Multi-Spot Detection Analysis Tool",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "server": "node server.js"
+  },
+  "keywords": [
+    "msd",
+    "analysis",
+    "plate",
+    "detection",
+    "medical"
+  ],
+  "author": "MSD Platform",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soheiltpr/MSD-analyzer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soheiltpr/MSD-analyzer/issues"
+  },
+  "homepage": "https://github.com/soheiltpr/MSD-analyzer#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "ml-levenberg-marquardt": "^5.0.0",
+    "xlsx": "^0.18.5"
+  }
+}

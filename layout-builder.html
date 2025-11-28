@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Builder</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    
+    .control-panel {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .add-btn {
+      padding: 18px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .add-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    
+    .add-btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-plate { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+    .btn-curve { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .btn-compounds { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+    .btn-table { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .btn-plot { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+    .btn-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      padding-top: 20px;
+      border-top: 2px solid #e2e8f0;
+    }
+    
+    .action-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-clear {
+      background: #fc5c7d;
+      color: white;
+    }
+    
+    .btn-save {
+      background: #667eea;
+      color: white;
+    }
+    
+    .btn-export {
+      background: #38ef7d;
+      color: white;
+    }
+    
+    .action-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .preview-panel {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      min-height: 600px;
+    }
+    
+    .preview-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .sections-container {
+      min-height: 400px;
+      position: relative;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: #a0aec0;
+    }
+    
+    .empty-state-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+    
+    .empty-state-text {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .empty-state-hint {
+      font-size: 14px;
+    }
+    
+    .layout-section {
+      background: white;
+      border: 3px solid;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .layout-section:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid;
+    }
+    
+    .section-title-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .section-icon {
+      font-size: 32px;
+    }
+    
+    .section-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2d3748;
+    }
+    
+    .section-controls {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .control-btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .control-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .btn-up { background: #4299e1; color: white; }
+    .btn-down { background: #4299e1; color: white; }
+    .btn-remove { background: #fc8181; color: white; }
+    
+    .section-content {
+      padding: 20px;
+      background: #f7fafc;
+      border-radius: 8px;
+      min-height: 150px;
+    }
+    
+    .placeholder-text {
+      text-align: center;
+      color: #718096;
+      font-size: 16px;
+      padding: 40px 20px;
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>📐 Layout Builder</h1>
+      <p>Create custom report layouts by adding, arranging, and removing sections</p>
+    </div>
+    
+    <!-- Control Panel -->
+    <div class="control-panel">
+      <div class="section-title">➕ Add Sections to Your Layout</div>
+      
+      <div class="button-grid">
+        <button class="add-btn btn-plate" onclick="addSection('plate')">
+          <span>🧪</span>
+          <span>Plate Schematic</span>
+        </button>
+        
+        <button class="add-btn btn-curve" onclick="addSection('standard-curve')">
+          <span>📈</span>
+          <span>Standard Curve</span>
+        </button>
+        
+        <button class="add-btn btn-compounds" onclick="addSection('compounds')">
+          <span>🧬</span>
+          <span>Compounds Analysis</span>
+        </button>
+        
+        <button class="add-btn btn-table" onclick="addSection('table')">
+          <span>📊</span>
+          <span>Results Table</span>
+        </button>
+        
+        <button class="add-btn btn-plot" onclick="addSection('plot')">
+          <span>📉</span>
+          <span>Cytokine Plot</span>
+        </button>
+        
+        <button class="add-btn btn-text" onclick="addSection('text')">
+          <span>📝</span>
+          <span>Text / Notes</span>
+        </button>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="action-btn btn-clear" onclick="clearAll()">
+          🗑️ Clear All Sections
+        </button>
+        <button class="action-btn btn-save" onclick="saveLayout()">
+          💾 Save Layout
+        </button>
+        <button class="action-btn btn-export" onclick="exportPDF()">
+          📄 Export as PDF
+        </button>
+      </div>
+    </div>
+    
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div class="preview-title">
+        <span>📋</span>
+        <span>Layout Preview</span>
+      </div>
+      
+      <div class="sections-container" id="sectionsContainer">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">📐</div>
+          <div class="empty-state-text">Your canvas is empty</div>
+          <div class="empty-state-hint">Click the buttons above to add sections to your layout</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let sections = [];
+    let sectionIdCounter = 1;
+    
+    // Section configurations
+    const sectionConfigs = {
+      'plate': {
+        icon: '🧪',
+        title: 'Plate Schematic',
+        borderColor: '#38ef7d',
+        content: 'Plate schematic will be displayed here'
+      },
+      'standard-curve': {
+        icon: '📈',
+        title: 'Standard Curve',
+        borderColor: '#4facfe',
+        content: 'Standard curve chart will be displayed here'
+      },
+      'compounds': {
+        icon: '🧬',
+        title: 'Compounds Analysis',
+        borderColor: '#fed6e3',
+        content: 'Compounds analysis chart will be displayed here'
+      },
+      'table': {
+        icon: '📊',
+        title: 'Results Table',
+        borderColor: '#fa709a',
+        content: 'Results table will be displayed here'
+      },
+      'plot': {
+        icon: '📉',
+        title: 'Cytokine Plot',
+        borderColor: '#30cfd0',
+        content: 'Cytokine plot will be displayed here'
+      },
+      'text': {
+        icon: '📝',
+        title: 'Text / Notes',
+        borderColor: '#667eea',
+        content: '<textarea placeholder="Enter your notes here..."></textarea>'
+      }
+    };
+    
+    // Add a section
+    function addSection(type) {
+      console.log('Adding section:', type);
+      
+      const config = sectionConfigs[type];
+      const sectionId = 'section_' + sectionIdCounter++;
+      
+      const section = document.createElement('div');
+      section.className = 'layout-section';
+      section.id = sectionId;
+      section.style.borderColor = config.borderColor;
+      
+      section.innerHTML = `
+        <div class="section-header" style="border-bottom-color: ${config.borderColor};">
+          <div class="section-title-area">
+            <div class="section-icon">${config.icon}</div>
+            <div class="section-name">${config.title}</div>
+          </div>
+          <div class="section-controls">
+            <button class="control-btn btn-up" onclick="moveUp('${sectionId}')">▲ Up</button>
+            <button class="control-btn btn-down" onclick="moveDown('${sectionId}')">▼ Down</button>
+            <button class="control-btn btn-remove" onclick="removeSection('${sectionId}')">✕ Remove</button>
+          </div>
+        </div>
+        <div class="section-content">
+          ${type === 'text' ? config.content : `<div class="placeholder-text">${config.content}</div>`}
+        </div>
+      `;
+      
+      // Add to array
+      sections.push({ id: sectionId, type, element: section });
+      
+      // Render
+      render();
+      
+      console.log('Section added:', sectionId);
+    }
+    
+    // Remove a section
+    function removeSection(sectionId) {
+      console.log('Removing section:', sectionId);
+      sections = sections.filter(s => s.id !== sectionId);
+      render();
+    }
+    
+    // Move section up
+    function moveUp(sectionId) {
+      const index = sections.findIndex(s => s.id === sectionId);
+      if (index > 0) {
+        [sections[index - 1], sections[index]] = [sections[index], sections[index - 1]];
+        render();
+      }
+    }
+    
+    // Move section down
+    function moveDown(sectionId) {
+      const index = sections.findIndex(s => s.id === sectionId);
+      if (index >= 0 && index < sections.length - 1) {
+        [sections[index], sections[index + 1]] = [sections[index + 1], sections[index]];
+        render();
+      }
+    }
+    
+    // Clear all sections
+    function clearAll() {
+      if (sections.length === 0) return;
+      if (!confirm('Remove all sections from the layout?')) return;
+      sections = [];
+      render();
+    }
+    
+    // Save layout
+    function saveLayout() {
+      const data = sections.map(s => ({ type: s.type, id: s.id }));
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'layout_config.json';
+      link.click();
+      URL.revokeObjectURL(url);
+      alert('Layout configuration saved!');
+    }
+    
+    // Export PDF
+    function exportPDF() {
+      alert('PDF export feature coming soon!');
+    }
+    
+    // Render sections
+    function render() {
+      const container = document.getElementById('sectionsContainer');
+      const emptyState = document.getElementById('emptyState');
+      
+      if (sections.length === 0) {
+        emptyState.style.display = 'block';
+        // Clear sections
+        Array.from(container.children).forEach(child => {
+          if (child.id !== 'emptyState') {
+            child.remove();
+          }
+        });
+      } else {
+        emptyState.style.display = 'none';
+        // Clear and re-add
+        Array.from(container.children).forEach(child => {
+          if (child.id !== 'emptyState') {
+            child.remove();
+          }
+        });
+        sections.forEach(section => {
+          container.appendChild(section.element);
+        });
+      }
+    }
+    
+    // Log on page load
+    console.log('%c✅ LAYOUT BUILDER LOADED!', 'background: green; color: white; font-size: 20px; font-weight: bold; padding: 10px;');
+  </script>
+</body>
+</html>
+
