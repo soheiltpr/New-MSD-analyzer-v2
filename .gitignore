@@ -1,10 +1,6 @@
-node_modules/
+node_modules
 .DS_Store
-*.zip
-*.png
-*.jpg
-*.jpeg
-*.xlsx
-*.pdf
-*.mp4
-*.mov
+npm-debug.log*
+yarn-error.log*
+.env
+dist
